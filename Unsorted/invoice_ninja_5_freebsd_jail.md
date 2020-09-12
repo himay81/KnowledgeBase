@@ -39,7 +39,7 @@ Let's create the standard `nginx.conf` per Invoice Ninja's instructions for v5:
 cat <<EOF >> /usr/local/etc/nginx/conf.d/ininja.conf
 server {
 	listen=					80;
-	server_name				invoicing.jamiebaxter.com;
+	server_name				invoiceninja.com;
 	root					/usr/local/www/invoiceninja/public;
 	index					index.html index.htm index.php;
 	client_max_body_size	20M;
