@@ -36,7 +36,7 @@ sed -i '' -e 's?;cgi.fix_pathinfo=1?cgi.fix_pathinfo=0?g' /usr/local/etc/php.ini
 Let's create the standard `nginx.conf` per Invoice Ninja's instructions for v5:
 
 ```tcsh
-cat <<'EOF' >> /usr/local/etc/nginx/conf.d/ininja.conf
+cat <<EOF >> /usr/local/etc/nginx/conf.d/ininja.conf
 server {
 	listen=					80;
 	server_name				invoicing.jamiebaxter.com;
@@ -85,7 +85,7 @@ EOF
 At let's edit the default `nginx.conf` so that way we just use an `include` directive to bring the configuration in:
 
 ```tcsh
-cat <<'EOF' >> /usr/local/etc/nginx/nginx.conf
+cat <<EOF >> /usr/local/etc/nginx/nginx.conf
 worker_processes		1;
 pid						/var/run/nginx.pid;
 
@@ -101,6 +101,7 @@ http {
 
 	include				/usr/local/etc/nginx/conf.d/*.conf;
 }
+EOF
 ```
 
 Fetch the Invoice Ninja source:
