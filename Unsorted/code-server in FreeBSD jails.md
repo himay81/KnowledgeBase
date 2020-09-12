@@ -6,31 +6,31 @@
 
 #### Installing with `code14`
 
-```sh
+```tcsh
 pkg install curl npm python3
 ```
 
 #### Installing with `code12`
 
-```sh
+```tcsh
 pkg install curl npm-node12 python3
 ```
 
 #### Installing with `code14`
 
-```sh
+```tcsh
 pkg install curl yarn python3
 ```
 
 #### Installing with `code12`
 
-```sh
+```tcsh
 pkg install curl yarn-node12 python3
 ```
 
 ## Installation of `code-server`
 
-```sh
+```tcsh
 curl -fsSL https://code-server.dev/install.sh | sh
 ```
 
