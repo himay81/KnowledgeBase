@@ -1,10 +1,10 @@
 # Installing Invoice Ninja 5 into a FreeBSD jail
 
 Taken from several different sources:
-* https://invoiceninja.github.io/selfhost.html#migrating-from-v4
-* https://github.com/invoiceninja/invoiceninja/wiki/FreeNAS-11.2-(FreeBSD)
-* https://forum.invoiceninja.com/t/install-invoice-ninja-v5-on-centos-8/4293
-* https://www.gitmemory.com/issue/paulmaunders/delivery-slot-bot/69/623181525
+* <https://invoiceninja.github.io/selfhost.html#migrating-from-v4>
+* <https://github.com/invoiceninja/invoiceninja/wiki/FreeNAS-11.2-(FreeBSD)>
+* <https://forum.invoiceninja.com/t/install-invoice-ninja-v5-on-centos-8/4293>
+* <https://www.gitmemory.com/issue/paulmaunders/delivery-slot-bot/69/623181525>
 
 ## Create your jail
 
@@ -16,11 +16,13 @@ Install the following packages:
 pkg install nginx openssl python3 npm mariadb104-server php74 php74-{ctype,pdo,pdo_mysql,session,iconv,filter,openssl,phar,mysqli,simplexml,xmlreader,xmlwriter,fileinfo,pear-PHP_Parser,tokenizer,gd,curl,gmp,json,zip,xml,readline,opcache,mbstring,bcmath,curl,partisan,extensions,dom,exif}
 ```
 
-Enable the services necessary:
+Enable the services necessary, and configure `mariadb` with the appropriate configuration file. Also, for some odd reason when `mariadb` is configured to use a Unix socket, it neglects to set the permissions on the folder (`/var/run/mysql`) properly, so we'll need to `chown` that folder.
 
 ```tcsh
 sysrc mysql_enable=YES mysql_optionfile=/usr/local/etc/mysql/my.cnf nginx_enable=YES php_fpm_enable=YES
-
+service mysql-server start          # This will create any necessary folders
+chown -R 88:88 /var/run/mysql       # UID/GID 88 corresponds to mysql on FreeBSD
+service mysql-server start
 ```
 
 ```tcsh
@@ -38,7 +40,7 @@ Let's create the standard `nginx.conf` per Invoice Ninja's instructions for v5:
 ```tcsh
 cat <<EOF >> /usr/local/etc/nginx/conf.d/ininja.conf
 server {
-	listen=					80;
+    listen=                 80;
 	server_name				invoiceninja.com;
 	root					/usr/local/www/invoiceninja/public;
 	index					index.html index.htm index.php;
