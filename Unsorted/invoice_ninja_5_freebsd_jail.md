@@ -21,9 +21,17 @@ Enable the services necessary, and configure `mariadb` with the appropriate conf
 ```tcsh
 sysrc mysql_enable=YES mysql_optionfile=/usr/local/etc/mysql/my.cnf nginx_enable=YES php_fpm_enable=YES
 service mysql-server start          # This will create any necessary folders
-chown -R 88:88 /var/run/mysql       # UID/GID 88 corresponds to mysql on FreeBSD
+chown -R 88:88 /var/run/mysql       # UID/GID 88 corresponds to the mysql user on FreeBSD
 service mysql-server start
 ```
+
+With `mariadb-server` running now, we can tighten up the installation with `mysql_secure_installation`. Once that is done, we will configure `mariadb` with the user and table necessary.
+
+```tcsh
+
+```
+
+
 
 ```tcsh
 sed -i '' -e 's?listen = 127.0.0.1:9000?listen = /var/run/php-fpm.sock?g' /usr/local/etc/php-fpm.d/www.conf
@@ -41,8 +49,7 @@ Let's create the standard `nginx.conf` per Invoice Ninja's instructions for v5:
 cat <<EOF >> /usr/local/etc/nginx/conf.d/ininja.conf
 server {
     listen=                 80;
-	server_name				invoiceninja.com;
-	root					/usr/local/www/invoiceninja/public;
+	server_name				invoiceninja.com	;root					/usr/local/www/invoiceninja/public;
 	index					index.html index.htm index.php;
 	client_max_body_size	20M;
 	charset					utf-8;
